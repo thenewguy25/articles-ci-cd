@@ -1,0 +1,46 @@
+version: "3.8"
+
+services:
+  app:
+    image: jnguyen2459/laravel-articles:latest
+    container_name: laravel-articles-app-prod
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./storage:/var/www/storage
+    networks:
+      - laravel-articles-network
+
+  nginx:
+    image: nginx:alpine
+    container_name: laravel-articles-nginx-prod
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/prod.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - laravel-articles-network
+
+  db:
+    image: mysql:8.0
+    container_name: laravel-articles-db-prod
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: laravel_articles_prod
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+    volumes:
+      - dbdata_prod:/var/lib/mysql
+    networks:
+      - laravel-articles-network
+
+networks:
+  laravel-articles-network:
+    driver: bridge
+
+volumes:
+  dbdata_prod:
+    driver: local
