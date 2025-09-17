@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h1>Articles</h1>
+                    <h1>My Articles</h1>
                     <a href="{{ route('articles.create') }}" class="btn btn-primary">Create New Article</a>
                 </div>
 
