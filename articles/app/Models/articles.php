@@ -16,4 +16,13 @@ class articles extends Model
         'status',
         'category'
     ];
+    public function tags()
+    {
+        return $this->belongsToMany(
+            Tag::class,
+            'article_tag',      // Pivot table
+            'article_id',       // Foreign key on the pivot table for this model
+            'tag_id'            // Foreign key on the pivot table for the related model
+        );
+    }
 }

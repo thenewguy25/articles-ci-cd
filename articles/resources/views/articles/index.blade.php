@@ -35,6 +35,7 @@
                                     <th>Category</th>
                                     <th>Status</th>
                                     <th>Created</th>
+                                    <th>Tags</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -52,6 +53,11 @@
                                             </span>
                                         </td>
                                         <td>{{ $article->created_at->format('M d, Y') }}</td>
+                                        <td>
+                                            @foreach($article->tags as $tag)
+                                                <span class="badge bg-info">{{ $tag->name }}</span>
+                                            @endforeach
+                                        </td>
                                         <td>
                                             <div class="btn-group" role="group">
                                                 <a href="{{ route('articles.show', $article->id) }}"

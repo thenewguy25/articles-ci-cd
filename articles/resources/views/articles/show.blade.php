@@ -57,6 +57,14 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td><strong>Tags:</strong></td>
+                                        <td>
+                                            @foreach($article->tags as $tag)
+                                                <span class="badge bg-info">{{ $tag->name }}</span>
+                                            @endforeach
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td><strong>Created:</strong></td>
                                         <td>{{ $article->created_at->format('F d, Y \a\t g:i A') }}</td>
                                     </tr>

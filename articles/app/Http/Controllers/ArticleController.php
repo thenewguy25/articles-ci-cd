@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\articles;
+use App\Models\Tag;
 
 class ArticleController extends Controller
 {
@@ -21,7 +22,8 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        return view('articles.create');
+        $tags = Tag::all();
+        return view('articles.create', compact('tags'));
     }
 
     /**
@@ -37,7 +39,8 @@ class ArticleController extends Controller
             'category' => 'required|string|max:255',
         ]);
 
-        articles::create($request->all());
+        $article = articles::create($request->all());
+        $article->tags()->attach($request->input('tags')); // expects an array of tag IDs
 
         return redirect()->route('articles.index')
             ->with('success', 'Article created successfully.');
@@ -58,7 +61,8 @@ class ArticleController extends Controller
     public function edit(string $id)
     {
         $article = articles::findOrFail($id);
-        return view('articles.edit', compact('article'));
+        $tags = Tag::all();
+        return view('articles.edit', compact('article', 'tags'));
     }
 
     /**
@@ -75,6 +79,7 @@ class ArticleController extends Controller
         ]);
 
         $article = articles::findOrFail($id);
+        $article->tags()->sync($request->input('tags'));
         $article->update($request->all());
 
         return redirect()->route('articles.index')

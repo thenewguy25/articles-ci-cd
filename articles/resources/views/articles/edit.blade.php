@@ -78,6 +78,16 @@
                                 @enderror
                             </div>
 
+                            <div class="mb-3">
+                                <label for="tags" class="form-label">Tags</label>
+                                <select class="form-control" id="tags" name="tags[]" multiple>
+                                    @foreach($tags as $tag)
+                                        <option value="{{ $tag->id }}" {{ (in_array($tag->id, old('tags', $article->tags->pluck('id')->toArray()))) ? 'selected' : '' }}>{{ $tag->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                                 <a href="{{ route('articles.index') }}" class="btn btn-secondary me-md-2">Cancel</a>
                                 <button type="submit" class="btn btn-primary">Update Article</button>
